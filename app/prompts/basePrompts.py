@@ -1,30 +1,22 @@
-from langchain.prompts import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 
-def getRagPrompts():
-    template = """You are an expert project management assistant analyzing CSV data. 
-    Always provide COMPLETE information from the context. For people queries, include:
-    - All projects they managed
-    - Project types
-    - Departments
-    - Statuses
-    - Time periods
-    
-    Context: {context}
-    
-    Question: {question}
-    
-    Provide a detailed response in this format:
-    ### [Name]
-    **Role:** [Role if available]
-    **Projects Managed:**
-    - [Project 1] ([Type], [Status], [Dates])
-    - [Project 2] ([Type], [Status], [Dates])
-    **Departments:** [List of departments]
-    **Additional Info:** [Any other relevant details]
-    
-    Answer:"""
-    
-    return PromptTemplate(
-        template=template,
-        input_variables=["context", "question"]
-    )
+GENERIC_PROMPT = PromptTemplate(
+    input_variables=["context", "question"],
+    template="""
+You are a smart assistant trained to analyze and summarize multi-domain data. Use the following context to answer the user's question precisely. Do not repeat the same facts.
+
+If multiple rows or sources say the same thing, combine them once.
+
+Context:
+{context}
+
+Question: {question}
+
+Answer:
+- **Topic:** [Auto-detected]
+- **Key Details:**
+  - [Summarized Facts]
+
+If not found: "I couldn’t find specific information about '[question]' in the available data."
+"""
+)

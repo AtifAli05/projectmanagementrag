@@ -1,7 +1,6 @@
 # from embeddings.huggingFaceEmbddings import getEmbeddings
 from app.embeddings.huggingFaceEmbddings import getEmbeddings
 from app.retrievers.chromaRetriver import getVectorStore
-from app.prompts.basePrompts import getRagPrompts
 from app.chains.ragChain import build_rag_chain
 from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
@@ -35,10 +34,10 @@ def main():
             
             # Show sources for verification
             print("\n=== Sources ===")
-            for i, doc in enumerate(result["source_documents"][:3], 1):
+            for i, doc in enumerate(result["source_documents"],1):
                 print(f"\nSource {i}:")
                 print(f"File: {doc.metadata.get('source_file', 'Unknown')}")
-                print(f"Content: {doc.page_content[:200]}...")
+                print(f"Content: {doc.page_content[:400]}...")
                 
         except Exception as e:
             print(f"\nError: {str(e)}")
